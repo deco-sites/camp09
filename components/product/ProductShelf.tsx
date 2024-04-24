@@ -12,17 +12,18 @@ import { usePlatform } from "../../sdk/usePlatform.tsx";
 import type { Product } from "apps/commerce/types.ts";
 import { mapProductToAnalyticsItem } from "apps/commerce/utils/productToAnalyticsItem.ts";
 import { clx } from "../../sdk/clx.ts";
+import HorizontalProductCard from "./HorizontalProductCard.tsx";
 
 export interface Props {
   products: Product[] | null;
   title?: string;
-  description?: string;
+  desc?: string;
   layout?: {
     numberOfSliders?: {
       mobile?: 1 | 2 | 3 | 4 | 5;
       desktop?: 1 | 2 | 3 | 4 | 5;
     };
-    headerAlignment?: "center" | "left";
+    headerAlign?: "center" | "left";
     headerfontSize?: "Normal" | "Large" | "Small";
     showArrows?: boolean;
   };
@@ -32,7 +33,7 @@ export interface Props {
 function ProductShelf({
   products,
   title,
-  description,
+  desc,
   layout,
   cardLayout,
 }: Props) {
@@ -61,9 +62,9 @@ function ProductShelf({
     <div class="w-full container py-8 flex flex-col gap-6 lg:py-10">
       <Header
         title={title || ""}
-        description={description || ""}
+        desc={desc || ""}
         fontSize={layout?.headerfontSize || "Large"}
-        alignment={layout?.headerAlignment || "center"}
+        alignment={layout?.headerAlign || "center"}
       />
 
       <div
@@ -84,13 +85,7 @@ function ProductShelf({
                 slideMobile[layout?.numberOfSliders?.mobile ?? 1],
               )}
             >
-              <ProductCard
-                product={product}
-                itemListName={title}
-                layout={cardLayout}
-                platform={platform}
-                index={index}
-              />
+              <HorizontalProductCard product={product} />
             </Slider.Item>
           ))}
         </Slider>
@@ -98,12 +93,12 @@ function ProductShelf({
         {layout?.showArrows && (
           <>
             <div class="relative block z-10 col-start-1 row-start-3">
-              <Slider.PrevButton class="absolute w-12 h-12 flex justify-center items-center">
+              <Slider.PrevButton class="flex w-12 h-12 absolute justify-center items-center">
                 <Icon size={24} id="ChevronLeft" strokeWidth={3} class="w-5" />
               </Slider.PrevButton>
             </div>
             <div class="relative block z-10 col-start-3 row-start-3">
-              <Slider.NextButton class="absolute w-12 h-12 flex justify-center items-center">
+              <Slider.NextButton class="flex w-12 h-12 absolute justify-center items-center">
                 <Icon size={24} id="ChevronRight" strokeWidth={3} />
               </Slider.NextButton>
             </div>
